@@ -207,6 +207,10 @@ module.exports = {
                         title: '如何选择个人时间管理APP',
                         path: '/opinion/GTD.md'
                     },
+                    {
+                        title: '招聘面试需要注意的一些细节',
+                        path: '/opinion/interview.md'
+                    },
                 ]
             }
         ]
