@@ -1,8 +1,8 @@
 Arguments: 
-  /Users/wengzhisong/.nvm/versions/node/v12.14.0/bin/node /usr/local/Cellar/yarn/1.21.1/libexec/bin/yarn.js publish
+  /Users/wengzhisong/.nvm/versions/node/v12.14.0/bin/node /usr/local/Cellar/yarn/1.21.1/libexec/bin/yarn.js run deploy
 
 PATH: 
-  /Users/wengzhisong/.oh-my-zsh/custom/plugins/git-open:/Users/wengzhisong/.pyenv/shims:/usr/local/opt/mysql-client/bin:/Users/wengzhisong/.pyenv/bin:/Users/wengzhisong/.nvm/versions/node/v12.14.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/usr/local/aria2/bin:/Library/Apple/usr/bin:/Users/wengzhisong/github/wengzhisong-hz.github.io/node_modules/.bin:/usr/local/mysql/bin
+  /Users/wengzhisong/.pyenv/versions/3.7.0/bin:/usr/local/Cellar/pyenv/1.2.20/libexec:/Users/wengzhisong/.sdkman/candidates/java/current/bin:/Users/wengzhisong/.oh-my-zsh/custom/plugins/git-open:/Users/wengzhisong/.pyenv/shims:/usr/local/opt/mysql-client/bin:/Users/wengzhisong/.pyenv/bin:/Users/wengzhisong/.nvm/versions/node/v12.14.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/usr/local/aria2/bin:/Library/Apple/usr/bin:/usr/local/mysql/bin
 
 Yarn version: 
   1.21.1
@@ -14,17 +14,12 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: canceled
-      at Interface.<anonymous> (/usr/local/Cellar/yarn/1.21.1/libexec/lib/cli.js:136925:13)
-      at Interface.emit (events.js:210:5)
-      at Interface._ttyWrite (readline.js:887:16)
-      at ReadStream.onkeypress (readline.js:191:10)
-      at ReadStream.emit (events.js:210:5)
-      at emitKeys (internal/readline/utils.js:433:14)
-      at emitKeys.next (<anonymous>)
-      at ReadStream.onData (readline.js:1153:36)
-      at ReadStream.emit (events.js:210:5)
-      at addChunk (_stream_readable.js:309:12)
+  SyntaxError: /Users/wengzhisong/github/wengzhisong-hz.github.io/package.json: Unexpected token w in JSON at position 404
+      at JSON.parse (<anonymous>)
+      at /usr/local/Cellar/yarn/1.21.1/libexec/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.21.1/libexec/lib/cli.js:310:30)
+      at /usr/local/Cellar/yarn/1.21.1/libexec/lib/cli.js:321:13
 
 npm manifest: 
   {
@@ -37,13 +32,14 @@ npm manifest:
     "license": "MIT",
     "scripts": {
       "dev": "vuepress dev docs",
-      "publish": "sh ./deploy.sh",
+      "deploy": "sh ./deploy.sh",
       "build": "vuepress build docs"
     },
     "devDependencies": {
       "vuepress": "^1.7.1"
     }
   }
+  w
 
 yarn manifest: 
   No manifest

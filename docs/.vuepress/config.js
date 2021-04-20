@@ -35,7 +35,12 @@ module.exports = {
                         title: 'JavaScript',
                         path: '/basic/javascript/',
                         collapsable: false,
-                        children: []
+                        children: [
+                            {
+                                title: '手写代码',
+                                path: '/basic/javascript/handWritten.md'
+                            },
+                        ]
                     },
                     {
                         title: 'Linux',
