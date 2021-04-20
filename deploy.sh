@@ -1,6 +1,9 @@
 #!/usr/bin/env sh
 set -e
 
+git config user.email "1322457349@qq.com"
+git config user.name "wengzhisong"
+
 git add .
 git commit -m 'deploy'
 
