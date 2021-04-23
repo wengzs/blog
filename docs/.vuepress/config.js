@@ -216,6 +216,10 @@ module.exports = {
                         title: '招聘面试需要注意的一些细节',
                         path: '/opinion/interview.md'
                     },
+                    {
+                        title: '小型团队管理之激励篇',
+                        path: '/opinion/team.md'
+                    },
                 ]
             }
         ]
