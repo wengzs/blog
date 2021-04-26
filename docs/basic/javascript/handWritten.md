@@ -63,15 +63,15 @@ console.log(loopClone);
 
 ```js
 const curry = (fn) => {
-    let arg = [];
-    return function _fn(...res) {
-        if (res.length > 0) {
-            arg = arg.concat(res);
-            return _fn;
-        } else {
-            return fn(...arg);
-        }
-    };
+  let arg = [];
+  return function _fn(...res) {
+    if (res.length > 0) {
+      arg = arg.concat(res);
+      return _fn;
+    } else {
+      return fn(...arg);
+    }
+  };
 };
 const fn = (a, b, c, d) => a + b + c + d;
 const curringFn = curry(fn);
@@ -82,9 +82,9 @@ console.log(curringFn(1)(2)(3)(4)());
 
 ```js
 Function.prototype.myCall = function (thisObj, ...arg) {
-    thisObj._fn_ = this;
-    thisObj._fn_(...arg);
-    delete thisObj._fn_;
+  thisObj._fn_ = this;
+  thisObj._fn_(...arg);
+  delete thisObj._fn_;
 };
 ```
 
@@ -92,11 +92,11 @@ Function.prototype.myCall = function (thisObj, ...arg) {
 
 ```js
 Function.prototype.myBind = function (thisObj, ...arg) {
-    thisObj._fn_ = this;
-    return () => {
-        thisObj._fn_(...arg);
-        delete thisObj._fn_;
-    };
+  thisObj._fn_ = this;
+  return () => {
+    thisObj._fn_(...arg);
+    delete thisObj._fn_;
+  };
 };
 ```
 
@@ -104,10 +104,10 @@ Function.prototype.myBind = function (thisObj, ...arg) {
 
 ```js
 function newFunction(fn, ...arg) {
-    let obj = {};
-    obj.__proto__ = fn.prototype;
-    let res = fn.call(obj, ...arg);
-    return typeof res === "object" ? res : obj;
+  let obj = {};
+  obj.__proto__ = fn.prototype;
+  let res = fn.call(obj, ...arg);
+  return typeof res === "object" ? res : obj;
 }
 ```
 
@@ -256,3 +256,126 @@ subject.doSomething();
 ```
 
 ## 手写一个 Promise
+
+promise A+ 规范解读：
+
+> promise 有三个状态：pending，fulfilled，or rejected；「规范 Promise/A+ 2.1」
+> new promise 时， 需要传递一个 executor()执行器，执行器立即执行；
+> executor 接受两个参数，分别是 resolve 和 reject；
+> promise 的默认状态是 pending；
+> promise 有一个 value 保存成功状态的值，可以是 undefined/thenable/promise；「规范 Promise/A+ 1.3」
+> promise 有一个 reason 保存失败状态的值；「规范 Promise/A+ 1.5」
+> promise 只能从 pending 到 rejected, 或者从 pending 到 fulfilled，状态一旦确认，就不会再改变；
+> promise 必须有一个 then 方法，then 接收两个参数，分别是 promise 成功的回调 onFulfilled, 和 promise 失败的回调 onRejected；「规范 Promise/A+ 2.2」
+> 如果调用 then 时，promise 已经成功，则执行 onFulfilled，参数是 promise 的 value；
+> 如果调用 then 时，promise 已经失败，那么执行 onRejected, 参数是 promise 的 reason；
+> 如果 then 中抛出了异常，那么就会把这个异常作为参数，传递给下一个 then 的失败的回调 onRejected；
+
+ts 实现如下：
+
+```ts
+interface Resolve {
+  (value: any): void;
+}
+interface Reject {
+  (reason: any): void;
+}
+interface Executor {
+  (resolve: Resolve, reject: Reject): any;
+}
+interface Then {
+  (successExecutor: Resolve, failExecutor?: Reject): IMyPromise;
+}
+interface Catch {
+  (failExecutor: Reject): void;
+}
+interface IMyPromise {
+  status: "pending" | "fulfilled" | "rejected";
+  value: any;
+  reason: string;
+  resolve: Resolve;
+  reject: Reject;
+  then: Then;
+  catch: Catch;
+}
+
+class MyPromise implements IMyPromise {
+  status: "pending" | "fulfilled" | "rejected";
+  value: any;
+  reason: string;
+
+  resolve: Resolve = (value) => {
+    if (this.status === "pending") {
+      this.value = value;
+      this.status = "fulfilled";
+    }
+  };
+
+  reject: Reject = (reason) => {
+    if (this.status === "pending") {
+      this.reason = reason;
+      this.status = "rejected";
+    }
+  };
+
+  then: Then = (successExecutor, failExecutor) => {
+    if (this.status === "fulfilled") {
+      return new MyPromise((resolve, reject) => {
+        try {
+          const res = successExecutor(this.value);
+          resolve(res);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    }
+    if (this.status === "rejected") {
+      return new MyPromise((resolve, reject) => {
+        try {
+          const res = failExecutor(this.reason);
+          reject(res);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    }
+    if (this.status === "pending") {
+      // ...
+    }
+  };
+
+  catch: Catch = (failExecutor) => {
+    failExecutor(this.reason);
+  };
+
+  constructor(executor: Executor) {
+    this.status = "pending";
+    try {
+      executor(this.resolve, this.reject);
+    } catch (error) {
+      this.reject(error);
+    }
+  }
+}
+
+const testPromise = new MyPromise((resolve, reject) => {
+  resolve(1);
+});
+
+testPromise
+  .then((successValue) => {
+    console.log(successValue);
+    return 10;
+  })
+  .then((successValue) => {
+    console.log(successValue);
+    throw new Error("抛出错误：100");
+  })
+  .catch((reason) => {
+    console.log(reason);
+  });
+
+// 1
+// 10
+// Error: 抛出错误：100
+```
