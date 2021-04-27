@@ -203,15 +203,11 @@ module.exports = {
                 ]
             },
             {
-                title: '观点',
-                path: '/opinion/',
+                title: '管理',
+                path: '/management/',
                 collapsable: false,
                 sidebarDepth: 1,
                 children: [
-                    {
-                        title: '如何选择个人时间管理APP',
-                        path: '/opinion/GTD.md'
-                    },
                     {
                         title: '招聘面试需要注意的一些细节',
                         path: '/opinion/interview.md'
@@ -220,6 +216,18 @@ module.exports = {
                         title: '小型团队管理之激励篇',
                         path: '/opinion/team.md'
                     },
+                ]
+            },
+            {
+                title: '观点',
+                path: '/opinion/',
+                collapsable: false,
+                sidebarDepth: 1,
+                children: [
+                    {
+                        title: '如何选择个人时间管理APP',
+                        path: '/opinion/GTD.md'
+                    }
                 ]
             }
         ]
