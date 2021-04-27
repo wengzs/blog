@@ -210,11 +210,11 @@ module.exports = {
                 children: [
                     {
                         title: '招聘面试需要注意的一些细节',
-                        path: '/opinion/interview.md'
+                        path: '/management/interview.md'
                     },
                     {
                         title: '团队管理之激励篇',
-                        path: '/opinion/team.md'
+                        path: '/management/team.md'
                     },
                 ]
             },
