@@ -213,7 +213,7 @@ module.exports = {
                         path: '/opinion/interview.md'
                     },
                     {
-                        title: '小型团队管理之激励篇',
+                        title: '团队管理之激励篇',
                         path: '/opinion/team.md'
                     },
                 ]
