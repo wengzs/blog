@@ -41,8 +41,12 @@ module.exports = {
                                 path: '/basic/javascript/handWritten.md'
                             },
                             {
-                                title: 'ts补遗',
+                                title: 'TS 补遗',
                                 path: '/basic/javascript/ts.md'
+                            },
+                            {
+                                title: 'TS 与依赖注入（DI）',
+                                path: '/basic/javascript/di.md'
                             },
                         ]
                     },
