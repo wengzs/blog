@@ -40,6 +40,10 @@ module.exports = {
                                 title: '手写代码',
                                 path: '/basic/javascript/handWritten.md'
                             },
+                            {
+                                title: 'ts补遗',
+                                path: '/basic/javascript/ts.md'
+                            },
                         ]
                     },
                     {
