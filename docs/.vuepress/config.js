@@ -1,6 +1,11 @@
 module.exports = {
     title: '宁静致远',
     description: '宁静致远',
+    plugins: {
+        'sitemap': {
+            hostname: 'https://wengzhisong-hz.github.io'
+        },
+    },
     themeConfig: {
         nav: [
             { text: 'github', link: 'https://github.com/wengzhisong-hz' },

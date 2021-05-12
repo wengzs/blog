@@ -10,7 +10,6 @@ git commit -m 'deploy'
 npm run build
 cd docs/.vuepress/dist
 cp ../googlea12f3c453e57e5f0.html ./googlea12f3c453e57e5f0.html
-cp ../sitemap.xml ./sitemap.xml
 git init
 git add -A
 time=$(date "+%Y%m%d-%H%M%S")
