@@ -240,6 +240,10 @@ module.exports = {
                     {
                         title: '如何选择个人时间管理APP',
                         path: '/opinion/GTD.md'
+                    },
+                    {
+                        title: '个人信息方法论',
+                        path: '/opinion/message.md'
                     }
                 ]
             }
