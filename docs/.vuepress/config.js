@@ -207,7 +207,7 @@ module.exports = {
                         path: '/opinion/GTD.md'
                     },
                     {
-                        title: '个人信息方法论',
+                        title: '关于信息的一点思考',
                         path: '/opinion/message.md'
                     }
                 ]
