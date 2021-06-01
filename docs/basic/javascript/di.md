@@ -22,7 +22,7 @@ const cat = new Cat();
 cat.bark(); // cat bark
 ```
 
-上面的代码存在强耦合，我们改造下，将`Animal`的实力作为构造参数传入`Cat`类：
+上面的代码存在强耦合，我们改造下，将`Animal`的实例作为构造参数传入`Cat`类：
 
 ```ts
 class Animal {
@@ -205,6 +205,12 @@ console.log(Reflect.getMetadata("controller", Cat)); // { deps: [ 'animal' ] }
 我们在上一章节中，已经将依赖信息注入到了各个类的元数据中。接下来我们实现容器`IocContainer`类。
 
 ```ts
+type Constructor = new (...any) => object;
+interface Options {
+    provider: Constructor[];
+    controller: Constructor[];
+}
+
 class IocContainer {
   /**
    * provider容器
