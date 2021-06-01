@@ -175,7 +175,8 @@ function Injectable() {
 function Controller() {
   return (target) => {
     const deps = getArgs(target);
-    Reflect.defineMetadata("controller", { deps }, target);
+    const className = getName(target);
+    Reflect.defineMetadata("controller", { deps, className }, target);
     return target;
   };
 }
@@ -291,40 +292,127 @@ class IocContainer {
 TS 实现 IoC 的简易代码如下：
 
 ```ts
+// myDI.ts
 import "reflect-metadata";
 
+
+type Constructor = new (...any) => object;
+
+interface Options {
+    provider: Constructor[];
+    controller: Constructor[];
+}
+
 function getArgs(func) {
-  var args = func.toString().match(/function\s.*?\(([^)]*)\)/)[1];
-  return args
-    .split(",")
-    .map(function (arg) {
-      return arg.replace(/\/\*.*\*\//, "").trim();
-    })
-    .filter(function (arg) {
-      return arg;
-    });
+    var args = func.toString().match(/function\s.*?\(([^)]*)\)/)[1];
+    return args
+        .split(",")
+        .map(function (arg) {
+            return arg.replace(/\/\*.*\*\//, "").trim();
+        })
+        .filter(function (arg) {
+            return arg;
+        });
 }
 
 function getName(func) {
-  return func.toString().match(/function\s(.*)\(.*/)[1];
+    return func.toString().match(/function\s(.*)\(.*/)[1];
 }
 
-function Injectable() {
-  return (target) => {
-    const className = getName(target);
-    Reflect.defineMetadata("injectable", { className }, target);
-    return target;
-  };
+export function Injectable() {
+    return (target) => {
+        const className = getName(target);
+        Reflect.defineMetadata("injectable", { className }, target);
+        return target;
+    };
 }
 
-function Controller() {
-  return (target) => {
-    const deps = getArgs(target);
-    const className = getName(target);
-    Reflect.defineMetadata("controller", { deps, className }, target);
-    return target;
-  };
+export function Controller() {
+    return (target) => {
+        const deps = getArgs(target);
+        const className = getName(target);
+        Reflect.defineMetadata("controller", { deps, className }, target);
+        return target;
+    };
 }
+
+export class IocContainer {
+    /**
+     * provider容器
+     */
+    private provider: {
+        className: string;
+        instance: object;
+    }[] = [];
+    /**
+     * controller容器
+     */
+    private controller: {
+        className: string;
+        instance: object;
+    }[] = [];
+    constructor(options: Options) {
+        /**
+         * 提取provider信息
+         */
+        options.provider.forEach((provider) => {
+            const { className } = Reflect.getMetadata("injectable", provider);
+            /**
+             * 此处实现了单例
+             */
+            if (!this.isInProvider(className)) {
+                this.provider.push({
+                    className: className.toLowerCase(),
+                    instance: new provider(),
+                });
+            }
+        });
+        /**
+         * 提取controller信息
+         */
+        options.controller.forEach((controller) => {
+            const { deps, className } = Reflect.getMetadata("controller", controller);
+            let instanceList = [];
+            deps.forEach((instanceName) => {
+                if (this.isInProvider(instanceName.toLowerCase())) {
+                    const instance = this.getProvider(instanceName.toLowerCase());
+                    instanceList.push(instance);
+                } else {
+                    throw new Error(`未声明实例化变量${instanceName}所需要的类`);
+                }
+            });
+            this.controller.push({
+                className: className.toLowerCase(),
+                instance: new controller(...instanceList),
+            });
+        });
+    }
+    private isInProvider(className: string) {
+        return this.provider.some((provider) => provider.className === className);
+    }
+    private getProvider(className: string) {
+        return this.provider.filter(
+            (provider) => provider.className === className
+        )[0].instance;
+    }
+    /**
+     * 从容器中获取实例
+     */
+    public getInstance(className: string) {
+        const result = this.controller.filter(
+            (controller) => controller.className === className.toLowerCase()
+        );
+        if (result.length > 0) {
+            return result[0].instance;
+        } else {
+            throw new Error(`${className}未注册！`);
+        }
+    }
+}
+```
+
+```ts
+import { Injectable, Controller, IocContainer } from "myDI";
 
 @Injectable()
 class Animal {
@@ -339,86 +427,6 @@ class Cat {
   constructor(private animal: Animal) {}
   bark() {
     this.animal.bark(this.type);
-  }
-}
-
-type Constructor = new (...any) => object;
-interface Options {
-  provider: Constructor[];
-  controller: Constructor[];
-}
-
-class IocContainer {
-  /**
-   * provider容器
-   */
-  private provider: {
-    className: string;
-    instance: object;
-  }[] = [];
-  /**
-   * controller容器
-   */
-  private controller: {
-    className: string;
-    instance: object;
-  }[] = [];
-  constructor(options: Options) {
-    /**
-     * 提取provider信息
-     */
-    options.provider.forEach((provider) => {
-      const { className } = Reflect.getMetadata("injectable", provider);
-      /**
-       * 此处实现了单例
-       */
-      if (!this.isInProvider(className)) {
-        this.provider.push({
-          className: className.toLowerCase(),
-          instance: new provider(),
-        });
-      }
-    });
-    /**
-     * 提取controller信息
-     */
-    options.controller.forEach((controller) => {
-      const { deps, className } = Reflect.getMetadata("controller", controller);
-      let instanceList = [];
-      deps.forEach((instanceName) => {
-        if (this.isInProvider(instanceName.toLowerCase())) {
-          const instance = this.getProvider(instanceName.toLowerCase());
-          instanceList.push(instance);
-        } else {
-          throw new Error(`未声明实例化变量${instanceName}所需要的类`);
-        }
-      });
-      this.controller.push({
-        className: className.toLowerCase(),
-        instance: new controller(...instanceList),
-      });
-    });
-  }
-  private isInProvider(className: string) {
-    return this.provider.some((provider) => provider.className === className);
-  }
-  private getProvider(className: string) {
-    return this.provider.filter(
-      (provider) => provider.className === className
-    )[0].instance;
-  }
-  /**
-   * 从容器中获取实例
-   */
-  public getInstance(className: string) {
-    const result = this.controller.filter(
-      (controller) => controller.className === className.toLowerCase()
-    );
-    if (result.length > 0) {
-      return result[0].instance;
-    } else {
-      throw new Error(`${className}未注册！`);
-    }
   }
 }
 
