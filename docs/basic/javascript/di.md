@@ -6,16 +6,16 @@
 
 ```ts
 class Animal {
-  bark(type: string) {
-    console.log(`${type} bark`);
-  }
+    bark(type: string) {
+        console.log(`${type} bark`);
+    }
 }
 class Cat {
-  type = "cat";
-  animal = new Animal();
-  bark() {
-    this.animal.bark(this.type);
-  }
+    type = "cat";
+    animal = new Animal();
+    bark() {
+        this.animal.bark(this.type);
+    }
 }
 
 const cat = new Cat();
@@ -26,16 +26,16 @@ cat.bark(); // cat bark
 
 ```ts
 class Animal {
-  bark(type: string) {
-    console.log(`${type} bark`);
-  }
+    bark(type: string) {
+        console.log(`${type} bark`);
+    }
 }
 class Cat {
-  type = "cat";
-  constructor(private animal: Animal) {}
-  bark() {
-    this.animal.bark(this.type);
-  }
+    type = "cat";
+    constructor(private animal: Animal) {}
+    bark() {
+        this.animal.bark(this.type);
+    }
 }
 
 const cat = new Cat(new Animal());
@@ -63,6 +63,7 @@ cat.bark(); // cat bark
 > 例如：
 > 
 > Class A 中用到了 Class B 的对象 b，一般情况下，需要在 A 的代码中显式的 new 一个 B 的对象。
+> 
 > 采用依赖注入技术之后，A 的代码只需要定义一个私有的 B 对象，不需要直接 new 来获得这个对象，而是通过相关的容器控制程序来将 B 对象在外部 new 出来并注入到 A 类里的引用中。而具体获取的方法、对象被获取时的状态由配置文件（如 XML）来指定。
 
 实现依赖注入(`DI`)的方式有：
@@ -80,9 +81,8 @@ cat.bark(); // cat bark
 我们希望能做到：
 
 ```ts
-import { Injectable, ClassFactory } from "myDI";
+import { Injectable, Controller, IocContainer } from "myDI";
 
-// 使用装饰器，获取依赖信息
 @Injectable()
 class Animal {
   bark(type: string) {
@@ -90,7 +90,104 @@ class Animal {
   }
 }
 
+@Controller()
+class Cat {
+  type = "cat";
+  // -----
+  // 这里做一个约定：constructor 中注入的实例变量名与类名相同，第一个单词小写
+  // 当然也可以在 @Controller 中传入参数解决这个问题
+  // -----
+  constructor(private animal: Animal) {}
+  bark() {
+    this.animal.bark(this.type);
+  }
+}
+
+const iocContainer = new IocContainer({
+  provider: [Animal],
+  controller: [Cat],
+});
+
+const cat = iocContainer.getInstance("Cat");
+cat.bark();
+```
+
+让我们对上述代码进行一些改造，通过依赖注入(`DI`)实现控制反转(`IoC`)吧。
+
+## 实现 Injectable
+
+我们需要先掌握[TS 装饰器](https://www.tslang.cn/docs/handbook/decorators.html)的知识。
+
+以一个简单的例子开始：
+
+我们先定义一个`Injectable`的装饰器工厂函数，使用`Reflect.defineMetadata`将元数据注入到`Animal`类中。然后可以使用`Reflect.getMetadata`来获取注入的元数据。就是这么简单。
+
+```ts
+import "reflect-metadata";
+
+// 定义一个 Injectable 的装饰器工厂函数
+function Injectable() {
+  return (target) => {
+    // 注入元数据 { metaData: "metaData" }
+    Reflect.defineMetadata("ioc-key", { metaData: "metaData" }, target);
+    return target;
+  };
+}
+
+// 使用装饰器
 @Injectable()
+class Animal {}
+
+// 获取元数据
+console.log(Reflect.getMetadata("ioc-key", Animal)); // { metaData: 'metaData' }
+```
+
+我们可以使用`Function.toString()`来获取具体的类名、类构造函数的入参，并将这些信息写入元数据中。将上面的代码稍微改造下：
+
+```ts
+import "reflect-metadata";
+
+// 获取类构造函数的入参
+function getArgs(func) {
+  var args = func.toString().match(/function\s.*?\(([^)]*)\)/)[1];
+  return args
+    .split(",")
+    .map(function (arg) {
+      return arg.replace(/\/\*.*\*\//, "").trim();
+    })
+    .filter(function (arg) {
+      return arg;
+    });
+}
+// 获取类名
+function getName(func) {
+  return func.toString().match(/function\s(.*)\(.*/)[1];
+}
+
+function Injectable() {
+  return (target) => {
+    const className = getName(target);
+    Reflect.defineMetadata("injectable", { className }, target);
+    return target;
+  };
+}
+
+function Controller() {
+  return (target) => {
+    const deps = getArgs(target);
+    Reflect.defineMetadata("controller", { deps }, target);
+    return target;
+  };
+}
+
+@Injectable()
+class Animal {
+  bark(type: string) {
+    console.log(`${type} bark`);
+  }
+}
+
+@Controller()
 class Cat {
   type = "cat";
   constructor(private animal: Animal) {}
@@ -99,13 +196,240 @@ class Cat {
   }
 }
 
-// 容器自动注入 Animal 到 Cat 中
-const cat: Cat = ClassFactory(Cat);
-cat.bark();
+console.log(Reflect.getMetadata("injectable", Animal)); // { className: 'Animal' }
+console.log(Reflect.getMetadata("controller", Cat)); // { deps: [ 'animal' ] }
 ```
 
-让我们对上述代码进行一些改造，通过依赖注入(`DI`)实现控制反转(`IoC`)吧。
+## 实现 IocContainer
 
-## 实现 Injectable
+我们在上一章节中，已经将依赖信息注入到了各个类的元数据中。接下来我们实现容器`IocContainer`类。
 
-## 实现 ClassFactory
+```ts
+class IocContainer {
+  /**
+   * provider容器
+   */
+  private provider: {
+    className: string;
+    instance: object;
+  }[] = [];
+  /**
+   * controller容器
+   */
+  private controller: {
+    className: string;
+    instance: object;
+  }[] = [];
+  constructor(options: Options) {
+    /**
+     * 提取provider信息
+     */
+    options.provider.forEach((provider) => {
+      const { className } = Reflect.getMetadata("injectable", provider);
+      /**
+       * 此处实现了单例
+       */
+      if (!this.isInProvider(className)) {
+        this.provider.push({
+          className: className.toLowerCase(),
+          instance: new provider(),
+        });
+      }
+    });
+    /**
+     * 提取controller信息
+     */
+    options.controller.forEach((controller) => {
+      const { deps, className } = Reflect.getMetadata("controller", controller);
+      let instanceList = [];
+      deps.forEach((instanceName) => {
+        if (this.isInProvider(instanceName.toLowerCase())) {
+          const instance = this.getProvider(instanceName.toLowerCase());
+          instanceList.push(instance);
+        } else {
+          throw new Error(`未声明实例化变量${instanceName}所需要的类`);
+        }
+      });
+      this.controller.push({
+        className: className.toLowerCase(),
+        instance: new controller(...instanceList),
+      });
+    });
+  }
+  private isInProvider(className: string) {
+    return this.provider.some((provider) => provider.className === className);
+  }
+  private getProvider(className: string) {
+    return this.provider.filter(
+      (provider) => provider.className === className
+    )[0].instance;
+  }
+  /**
+   * 从容器中获取实例
+   */
+  public getInstance(className: string) {
+    const result = this.controller.filter(
+      (controller) => controller.className === className.toLowerCase()
+    );
+    if (result.length > 0) {
+      return result[0].instance;
+    } else {
+      throw new Error(`${className}未注册！`);
+    }
+  }
+}
+```
+
+## 总结
+
+TS 实现 IoC 的简易代码如下：
+
+```ts
+import "reflect-metadata";
+
+function getArgs(func) {
+  var args = func.toString().match(/function\s.*?\(([^)]*)\)/)[1];
+  return args
+    .split(",")
+    .map(function (arg) {
+      return arg.replace(/\/\*.*\*\//, "").trim();
+    })
+    .filter(function (arg) {
+      return arg;
+    });
+}
+
+function getName(func) {
+  return func.toString().match(/function\s(.*)\(.*/)[1];
+}
+
+function Injectable() {
+  return (target) => {
+    const className = getName(target);
+    Reflect.defineMetadata("injectable", { className }, target);
+    return target;
+  };
+}
+
+function Controller() {
+  return (target) => {
+    const deps = getArgs(target);
+    const className = getName(target);
+    Reflect.defineMetadata("controller", { deps, className }, target);
+    return target;
+  };
+}
+
+@Injectable()
+class Animal {
+  bark(type: string) {
+    console.log(`${type} bark`);
+  }
+}
+
+@Controller()
+class Cat {
+  type = "cat";
+  constructor(private animal: Animal) {}
+  bark() {
+    this.animal.bark(this.type);
+  }
+}
+
+type Constructor = new (...any) => object;
+interface Options {
+  provider: Constructor[];
+  controller: Constructor[];
+}
+
+class IocContainer {
+  /**
+   * provider容器
+   */
+  private provider: {
+    className: string;
+    instance: object;
+  }[] = [];
+  /**
+   * controller容器
+   */
+  private controller: {
+    className: string;
+    instance: object;
+  }[] = [];
+  constructor(options: Options) {
+    /**
+     * 提取provider信息
+     */
+    options.provider.forEach((provider) => {
+      const { className } = Reflect.getMetadata("injectable", provider);
+      /**
+       * 此处实现了单例
+       */
+      if (!this.isInProvider(className)) {
+        this.provider.push({
+          className: className.toLowerCase(),
+          instance: new provider(),
+        });
+      }
+    });
+    /**
+     * 提取controller信息
+     */
+    options.controller.forEach((controller) => {
+      const { deps, className } = Reflect.getMetadata("controller", controller);
+      let instanceList = [];
+      deps.forEach((instanceName) => {
+        if (this.isInProvider(instanceName.toLowerCase())) {
+          const instance = this.getProvider(instanceName.toLowerCase());
+          instanceList.push(instance);
+        } else {
+          throw new Error(`未声明实例化变量${instanceName}所需要的类`);
+        }
+      });
+      this.controller.push({
+        className: className.toLowerCase(),
+        instance: new controller(...instanceList),
+      });
+    });
+  }
+  private isInProvider(className: string) {
+    return this.provider.some((provider) => provider.className === className);
+  }
+  private getProvider(className: string) {
+    return this.provider.filter(
+      (provider) => provider.className === className
+    )[0].instance;
+  }
+  /**
+   * 从容器中获取实例
+   */
+  public getInstance(className: string) {
+    const result = this.controller.filter(
+      (controller) => controller.className === className.toLowerCase()
+    );
+    if (result.length > 0) {
+      return result[0].instance;
+    } else {
+      throw new Error(`${className}未注册！`);
+    }
+  }
+}
+
+const iocContainer = new IocContainer({
+  provider: [Animal],
+  controller: [Cat],
+});
+
+const cat = iocContainer.getInstance("cat");
+
+// 类型传递问题先忽略
+// @ts-ignore
+cat.bark(); // cat bark
+```
+
+要点有三个：
+
+1. 使用`function.toString()`方法获取类名、构造函数入参
+2. 在装饰器中使用`reflect-metadata`将上述元数据注入到类里
+3. 确保单例
