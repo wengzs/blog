@@ -33,7 +33,7 @@ module.exports = {
                         children: []
                     },
                     {
-                        title: 'JavaScript',
+                        title: 'JS & TS',
                         collapsable: false,
                         children: [
                             {
@@ -79,14 +79,7 @@ module.exports = {
                         title: 'Webpack',
                         collapsable: false,
                         children: []
-                    }
-                ]
-            },
-            {
-                title: '深入',
-                collapsable: false,
-                sidebarDepth: 2,
-                children: [
+                    },
                     {
                         title: 'Koa',
                         collapsable: false,
@@ -115,7 +108,12 @@ module.exports = {
                     {
                         title: 'Vue',
                         collapsable: false,
-                        children: []
+                        children: [
+                            {
+                                title: 'vue 实现要点',
+                                path: '/basic/vue/vueAnalysis.md'
+                            }
+                        ]
                     }
                 ]
             },
