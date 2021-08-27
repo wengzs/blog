@@ -85,7 +85,7 @@ module.exports = {
                         children: [
                             {
                                 title: '基础模块',
-                                path: '/basic/javascript/basic.md'
+                                path: '/basic/node/basic.md'
                             },
                         ]
                     },
