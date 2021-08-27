@@ -55,6 +55,14 @@ module.exports = {
                         collapsable: false,
                         children: [
                             {
+                                title: 'linux复习',
+                                path: '/basic/linux/basic.md',
+                            },
+                            {
+                                title: 'shell复习',
+                                path: '/basic/linux/shell.md',
+                            },
+                            {
                                 title: 'Windows部署前端Linux开发环境',
                                 path: '/basic/linux/wsl.md',
                             }
@@ -67,11 +75,6 @@ module.exports = {
                     },
                     {
                         title: 'MySQL',
-                        collapsable: false,
-                        children: []
-                    },
-                    {
-                        title: 'Shell',
                         collapsable: false,
                         children: []
                     },
