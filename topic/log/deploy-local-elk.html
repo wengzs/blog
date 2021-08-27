@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>在本地（mac）环境安装 ELK | Aiur</title>
+    <meta name="generator" content="VuePress 1.7.1">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/assets/css/0.styles.992cb7aa.css" as="style"><link rel="preload" href="/assets/js/app.e2f38cef.js" as="script"><link rel="preload" href="/assets/js/2.1707d9bd.js" as="script"><link rel="preload" href="/assets/js/42.35544c8a.js" as="script"><link rel="prefetch" href="/assets/js/10.12d53092.js"><link rel="prefetch" href="/assets/js/11.11232b2d.js"><link rel="prefetch" href="/assets/js/12.9bff5fa3.js"><link rel="prefetch" href="/assets/js/13.a52b957b.js"><link rel="prefetch" href="/assets/js/14.51512bc6.js"><link rel="prefetch" href="/assets/js/15.096ba589.js"><link rel="prefetch" href="/assets/js/16.5a19bf36.js"><link rel="prefetch" href="/assets/js/17.fce592a6.js"><link rel="prefetch" href="/assets/js/18.cfdd7d49.js"><link rel="prefetch" href="/assets/js/19.d3353f54.js"><link rel="prefetch" href="/assets/js/20.a4a39276.js"><link rel="prefetch" href="/assets/js/21.70ac3d8b.js"><link rel="prefetch" href="/assets/js/22.0300bc47.js"><link rel="prefetch" href="/assets/js/23.ada8ae51.js"><link rel="prefetch" href="/assets/js/24.242efda0.js"><link rel="prefetch" href="/assets/js/25.7a97d5dd.js"><link rel="prefetch" href="/assets/js/26.d59d2b25.js"><link rel="prefetch" href="/assets/js/27.f8c4df1e.js"><link rel="prefetch" href="/assets/js/28.4cb2b8d5.js"><link rel="prefetch" href="/assets/js/29.f167d54c.js"><link rel="prefetch" href="/assets/js/3.5e06bf6c.js"><link rel="prefetch" href="/assets/js/30.c3377a2b.js"><link rel="prefetch" href="/assets/js/31.de403d73.js"><link rel="prefetch" href="/assets/js/32.49e67918.js"><link rel="prefetch" href="/assets/js/33.6954091e.js"><link rel="prefetch" href="/assets/js/34.3dfb85f2.js"><link rel="prefetch" href="/assets/js/35.bf880438.js"><link rel="prefetch" href="/assets/js/36.27f98780.js"><link rel="prefetch" href="/assets/js/37.23a5d5a3.js"><link rel="prefetch" href="/assets/js/38.3ee8e643.js"><link rel="prefetch" href="/assets/js/39.9043130c.js"><link rel="prefetch" href="/assets/js/4.09fd2c39.js"><link rel="prefetch" href="/assets/js/40.5c386668.js"><link rel="prefetch" href="/assets/js/41.572d3b17.js"><link rel="prefetch" href="/assets/js/43.b32c1940.js"><link rel="prefetch" href="/assets/js/44.3383b7d3.js"><link rel="prefetch" href="/assets/js/45.0928cf83.js"><link rel="prefetch" href="/assets/js/46.022a9cd6.js"><link rel="prefetch" href="/assets/js/47.575170c5.js"><link rel="prefetch" href="/assets/js/5.b99a1609.js"><link rel="prefetch" href="/assets/js/6.ffe6f60a.js"><link rel="prefetch" href="/assets/js/7.d2d3f5d6.js"><link rel="prefetch" href="/assets/js/8.5bd62c9e.js"><link rel="prefetch" href="/assets/js/9.7f3390d1.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.992cb7aa.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Aiur</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="https://github.com/wengzhisong-hz" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://wengzhisong-hz.github.io/algorithm/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  算法笔记
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="https://github.com/wengzhisong-hz" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://wengzhisong-hz.github.io/algorithm/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  算法笔记
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>基础</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading open"><span>C++</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Electron</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Java</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>JS &amp; TS</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/basic/javascript/handWritten.html" class="sidebar-link">手写代码</a></li><li><a href="/basic/javascript/ts.html" class="sidebar-link">TS 补遗</a></li><li><a href="/basic/javascript/di.html" class="sidebar-link">TS 与依赖注入（DI）</a></li><li><a href="/basic/javascript/html&amp;css.html" class="sidebar-link">html &amp; css</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Linux</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/basic/linux/basic.html" class="sidebar-link">linux复习</a></li><li><a href="/basic/linux/shell.html" class="sidebar-link">shell复习</a></li><li><a href="/basic/linux/wsl.html" class="sidebar-link">Windows部署前端Linux开发环境</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Mongodb</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>MySQL</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Webpack</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Node</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/basic/node/basic.html" class="sidebar-link">基础模块</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>React</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Spring</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Vue</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/basic/vue/vueAnalysis.html" class="sidebar-link">vue 实现要点</a></li></ul></section></li></ul></section></li><li><section class="sidebar-group depth-0"><a href="/topic/" class="sidebar-heading clickable router-link-active open"><span>专题</span> <!----></a> <ul class="sidebar-links sidebar-group-items"><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Authorization</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>CMS</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>跨端</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>前端基建</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>直播</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading open"><span>监控</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/topic/log/deploy-local-elk.html" aria-current="page" class="active sidebar-link">在本地（mac）环境安装 ELK</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/topic/log/deploy-local-elk.html#部署-elasticsearch" class="sidebar-link">部署 Elasticsearch</a></li><li class="sidebar-sub-header"><a href="/topic/log/deploy-local-elk.html#部署-kibana" class="sidebar-link">部署 Kibana</a></li><li class="sidebar-sub-header"><a href="/topic/log/deploy-local-elk.html#部署-logstash" class="sidebar-link">部署 Logstash</a></li><li class="sidebar-sub-header"><a href="/topic/log/deploy-local-elk.html#搭建-node-打点服务" class="sidebar-link">搭建 node 打点服务</a></li><li class="sidebar-sub-header"><a href="/topic/log/deploy-local-elk.html#本地启动项目" class="sidebar-link">本地启动项目</a></li></ul></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>低代码</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>主数据</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>微前端</span> <!----></p> <!----></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>用户中心</span> <!----></p> <!----></section></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>管理</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/management/interview.html" class="sidebar-link">招聘面试需要注意的一些细节</a></li><li><a href="/management/team.html" class="sidebar-link">团队管理之激励篇</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>观点</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/opinion/GTD.html" class="sidebar-link">如何选择个人时间管理APP</a></li><li><a href="/opinion/message.html" class="sidebar-link">关于信息的一点思考</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="在本地-mac-环境安装-elk"><a href="#在本地-mac-环境安装-elk" class="header-anchor">#</a> 在本地（mac）环境安装 ELK</h1> <p>ELK = Elasticsearch（实时的分布式搜索和分析引擎） + Logstash（数据收集引擎） + Kibana（可视化 web 平台）;
+node 打点服务提供数据；</p> <h2 id="部署-elasticsearch"><a href="#部署-elasticsearch" class="header-anchor">#</a> 部署 Elasticsearch</h2> <p>使用 homebrew 安装：<code>brew install elasticsearch</code>；</p> <p>安装完毕之后，执行 <code>elasticsearch</code> 或 <code>brew services start elasticsearch</code> 启动 elasticsearch 服务，</p> <p>访问端口<code>localhost:9200</code>，获得如下返回数据，说明安装完毕：</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;zhisongdeMacBook-Pro.local&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;cluster_name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;elasticsearch_brew&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;cluster_uuid&quot;</span><span class="token operator">:</span> <span class="token string">&quot;slTqfyueTB2d7-iCjS-5GA&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;number&quot;</span><span class="token operator">:</span> <span class="token string">&quot;7.8.1-SNAPSHOT&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;build_flavor&quot;</span><span class="token operator">:</span> <span class="token string">&quot;oss&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;build_type&quot;</span><span class="token operator">:</span> <span class="token string">&quot;tar&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;build_hash&quot;</span><span class="token operator">:</span> <span class="token string">&quot;unknown&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;build_date&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2020-07-31T16:57:12.889003Z&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;build_snapshot&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;lucene_version&quot;</span><span class="token operator">:</span> <span class="token string">&quot;8.5.1&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;minimum_wire_compatibility_version&quot;</span><span class="token operator">:</span> <span class="token string">&quot;6.8.0&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;minimum_index_compatibility_version&quot;</span><span class="token operator">:</span> <span class="token string">&quot;6.0.0-beta1&quot;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;tagline&quot;</span><span class="token operator">:</span> <span class="token string">&quot;You Know, for Search&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="部署-kibana"><a href="#部署-kibana" class="header-anchor">#</a> 部署 Kibana</h2> <p>同样的，执行下面指令部署和启动 Logstash:</p> <div class="language-bash extra-class"><pre class="language-bash"><code>brew <span class="token function">install</span> kibana
+
+kibana
+<span class="token comment"># or</span>
+brew services start kibana
+</code></pre></div><p>访问 <code>localhost:5601</code> 即可看到 kibana 页面（需要 Elasticsearch 服务启动）；</p> <h2 id="部署-logstash"><a href="#部署-logstash" class="header-anchor">#</a> 部署 Logstash</h2> <p>同样的，执行下面指令部署和启动 Logstash:</p> <div class="language-bash extra-class"><pre class="language-bash"><code>brew <span class="token function">install</span> logstash
+
+logstash
+<span class="token comment"># or</span>
+brew services start logstash
+</code></pre></div><p>logstash 在本地启动，需要指定配置文件：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># test_logstash.conf</span>
+input <span class="token punctuation">{</span>
+   <span class="token function">file</span> <span class="token punctuation">{</span>
+      path <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">[</span><span class="token string">&quot;xxx/local.txt&quot;</span><span class="token punctuation">]</span> <span class="token comment"># 创建并指定一个或多个txt作为log数据源</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+ output <span class="token punctuation">{</span>
+   elasticsearch<span class="token punctuation">{</span>
+      hosts <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">[</span><span class="token string">&quot;http://localhost:9200&quot;</span><span class="token punctuation">]</span>
+      index <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token string">&quot;local_logstash&quot;</span>
+   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>在本地启动 logstash: <code>logstash -f ./test_logstash.conf</code></p> <p>访问 <code>localhost:9600</code> 即可看到 logstash 页面（需要 Elasticsearch 服务启动）；</p> <h2 id="搭建-node-打点服务"><a href="#搭建-node-打点服务" class="header-anchor">#</a> 搭建 node 打点服务</h2> <ol><li>使用 log4js 写入 log 数据</li></ol> <p>log 信息需要分类、分级；log 文件需要限制大小以及储存时间。log4js 非常合适这些需求。</p> <p>大致思路：</p> <ul><li>设置信息等级，在 levels 中配置；</li> <li>设置信息分类，在 categories 中配置；</li> <li>设置信息输出类型、写入文件地址、文件限制大小、备份数量，在 appenders 中配置；</li> <li>根据请求入参，选择合适的 log 方法；</li></ul> <p>贴一段 koa2 中 log4js 的配置仅供参考：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> log4js <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'log4js'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> logPath <span class="token operator">=</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'../elk-log'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> log4jsConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
+  levels<span class="token operator">:</span> <span class="token punctuation">{</span>
+    debug<span class="token operator">:</span> <span class="token punctuation">{</span>
+      value<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+      colour<span class="token operator">:</span> <span class="token string">'black'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    info<span class="token operator">:</span> <span class="token punctuation">{</span>
+      value<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+      colour<span class="token operator">:</span> <span class="token string">'black'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    warn<span class="token operator">:</span> <span class="token punctuation">{</span>
+      value<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+      colour<span class="token operator">:</span> <span class="token string">'yellow'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    error<span class="token operator">:</span> <span class="token punctuation">{</span>
+      value<span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+      colour<span class="token operator">:</span> <span class="token string">'red'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    fatal<span class="token operator">:</span> <span class="token punctuation">{</span>
+      value<span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+      colour<span class="token operator">:</span> <span class="token string">'red'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// pm2: true,</span>
+  appenders<span class="token operator">:</span> <span class="token punctuation">{</span>
+    out<span class="token operator">:</span> <span class="token punctuation">{</span> type<span class="token operator">:</span> <span class="token string">'stdout'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token keyword">default</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      type<span class="token operator">:</span> <span class="token string">'dateFile'</span><span class="token punctuation">,</span>
+      filename<span class="token operator">:</span> logPath <span class="token operator">+</span> <span class="token string">'/default.txt'</span><span class="token punctuation">,</span>
+      maxLogSize<span class="token operator">:</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">128</span><span class="token punctuation">,</span> <span class="token comment">// 128M</span>
+      backups<span class="token operator">:</span> <span class="token number">100</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    dev<span class="token operator">:</span> <span class="token punctuation">{</span>
+      type<span class="token operator">:</span> <span class="token string">'dateFile'</span><span class="token punctuation">,</span>
+      filename<span class="token operator">:</span> logPath <span class="token operator">+</span> <span class="token string">'/dev.txt'</span><span class="token punctuation">,</span>
+      maxLogSize<span class="token operator">:</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">128</span><span class="token punctuation">,</span>
+      backups<span class="token operator">:</span> <span class="token number">100</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    sit<span class="token operator">:</span> <span class="token punctuation">{</span>
+      type<span class="token operator">:</span> <span class="token string">'dateFile'</span><span class="token punctuation">,</span>
+      filename<span class="token operator">:</span> logPath <span class="token operator">+</span> <span class="token string">'/sit.txt'</span><span class="token punctuation">,</span>
+      maxLogSize<span class="token operator">:</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">128</span><span class="token punctuation">,</span>
+      backups<span class="token operator">:</span> <span class="token number">100</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    uat<span class="token operator">:</span> <span class="token punctuation">{</span>
+      type<span class="token operator">:</span> <span class="token string">'dateFile'</span><span class="token punctuation">,</span>
+      filename<span class="token operator">:</span> logPath <span class="token operator">+</span> <span class="token string">'/uat.txt'</span><span class="token punctuation">,</span>
+      maxLogSize<span class="token operator">:</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">128</span><span class="token punctuation">,</span>
+      backups<span class="token operator">:</span> <span class="token number">100</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  categories<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token keyword">default</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      appenders<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'out'</span><span class="token punctuation">,</span> <span class="token string">'default'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      level<span class="token operator">:</span> <span class="token string">'all'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    dev<span class="token operator">:</span> <span class="token punctuation">{</span>
+      appenders<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'out'</span><span class="token punctuation">,</span> <span class="token string">'dev'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      level<span class="token operator">:</span> <span class="token string">'all'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    sit<span class="token operator">:</span> <span class="token punctuation">{</span>
+      appenders<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'out'</span><span class="token punctuation">,</span> <span class="token string">'sit'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      level<span class="token operator">:</span> <span class="token string">'all'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    uat<span class="token operator">:</span> <span class="token punctuation">{</span>
+      appenders<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'out'</span><span class="token punctuation">,</span> <span class="token string">'uat'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      level<span class="token operator">:</span> <span class="token string">'all'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+log4js<span class="token punctuation">.</span><span class="token function">configure</span><span class="token punctuation">(</span>log4jsConfig<span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">loggerMiddleware</span> <span class="token operator">=</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">ctx<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">await</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> logData <span class="token operator">=</span> ctx<span class="token punctuation">.</span>query
+  <span class="token comment">// logData.type: 'debug' | 'info' | 'warn' | 'error' | 'fatal'</span>
+  <span class="token comment">// logData.env: 'dev' | 'sit' | 'uat'</span>
+  <span class="token keyword">let</span> type <span class="token operator">=</span> <span class="token string">''</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>logData<span class="token punctuation">.</span>type <span class="token operator">&amp;&amp;</span> Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>log4jsConfig<span class="token punctuation">.</span>levels<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span>logData<span class="token punctuation">.</span>type<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    type <span class="token operator">=</span> logData<span class="token punctuation">.</span>type
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    type <span class="token operator">=</span> <span class="token string">'info'</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">const</span> logger <span class="token operator">=</span> log4js<span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span>logData<span class="token punctuation">.</span>env<span class="token punctuation">)</span>
+  <span class="token keyword">const</span> logText <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>logData<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span>
+
+  logger<span class="token punctuation">[</span>type<span class="token punctuation">]</span><span class="token punctuation">(</span>logText<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  loggerMiddleware
+<span class="token punctuation">}</span>
+</code></pre></div><ol start="2"><li>logstash 指定 log 文件夹</li></ol> <p>配置文件 path 参数修改为：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>input <span class="token punctuation">{</span>
+   <span class="token function">file</span> <span class="token punctuation">{</span>
+      path <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">[</span><span class="token string">&quot;xxx/node-server/elk-log&quot;</span><span class="token punctuation">]</span> <span class="token comment"># 指定为log4js输出文件夹</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+ output <span class="token punctuation">{</span>
+   elasticsearch<span class="token punctuation">{</span>
+      hosts <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">[</span><span class="token string">&quot;http://localhost:9200&quot;</span><span class="token punctuation">]</span>
+      index <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token string">&quot;local_logstash&quot;</span>
+   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="本地启动项目"><a href="#本地启动项目" class="header-anchor">#</a> 本地启动项目</h2> <p>启动 elk（mac，brew）:</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+brew services start elasticsearch <span class="token operator">&amp;&amp;</span> brew services start kibana <span class="token operator">&amp;&amp;</span> brew services start logstash -f ./local_logstash.conf <span class="token operator">&amp;&amp;</span> logstash -f ./local_logstash.conf
+</code></pre></div><p>然后启动 node 服务，即可在 Kibana 中查看 log 的数据了。</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/basic/vue/vueAnalysis.html" class="prev">
+        vue 实现要点
+      </a></span> <span class="next"><a href="/management/interview.html">
+        招聘面试需要注意的一些细节
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.e2f38cef.js" defer></script><script src="/assets/js/2.1707d9bd.js" defer></script><script src="/assets/js/42.35544c8a.js" defer></script>
+  </body>
+</html>
